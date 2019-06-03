@@ -1,0 +1,61 @@
+server:
+  port: 8080
+  servlet.context-path: /api
+
+spring:
+  profiles.active: fede
+  application.name: ExamenTecso
+      
+---
+#DEV CONFIGURATION
+spring:
+  profiles: dev
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver: org.h2.Driver
+    username: sa
+
+---        
+#PROD CONFIGURATION
+spring:
+  profiles: qa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver: org.h2.Driver
+    username: sa
+
+---
+#FEDE CONFIGURATION
+spring:
+  profiles: fede
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+    hibernate:
+          ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tecso_test
+    driver: org.postgresql.Driver
+    username: federico
+    password: 12345
+
+---
+#DEPLOY FEDE CONFIGURATION
+spring:
+  profiles: deployfede
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+    hibernate:
+          ddl-auto: create
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    driver: org.postgresql.Driver
